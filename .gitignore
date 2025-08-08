@@ -1,4 +1,7 @@
 data/
+# Ignore local Python virtual environment
+antman_env/
+data/
 .env
 __pycache__/
 *.db
