@@ -16,6 +16,11 @@ sqlalchemy>=1.4.0
 # Data storage formats
 pyarrow>=10.0.0  # For Parquet support
 
+# DuckDB + visualization
+duckdb>=0.10.3
+plotly>=5.20.0
+ipywidgets>=8.0.0
+
 # Snowflake connection
 snowflake-connector-python>=3.0.0
 snowflake-sqlalchemy>=1.4.0

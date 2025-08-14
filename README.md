@@ -25,11 +25,19 @@ Important values:
 - S3_ENDPOINT_URL=127.0.0.1:9100 (no http://)
 - S3_USE_SSL=false
 
-## 3) Start MinIO and create the bucket
+## 3) Start MinIO and create the bucket (no Makefile)
 ```zsh
-make up            # start MinIO
-make bucket        # create $MINIO_BUCKET
-make console       # show console URL
+docker compose up -d
+docker compose ps
+```
+Create bucket via mc container (idempotent):
+```zsh
+docker run --rm --network antman \
+  -e MC_HOST_antman=http://$MINIO_ROOT_USER:$MINIO_ROOT_PASSWORD@minio:9000 \
+  quay.io/minio/mc mb -p antman/$MINIO_BUCKET || true
+docker run --rm --network antman \
+  -e MC_HOST_antman=http://$MINIO_ROOT_USER:$MINIO_ROOT_PASSWORD@minio:9000 \
+  quay.io/minio/mc ls antman/$MINIO_BUCKET
 ```
 MinIO console: http://localhost:9101
 
@@ -75,10 +83,27 @@ PY
 - See `notebooks/` for dashboards and comparisons (pandas vs DuckDB).
 - If Plotly charts don’t render in VS Code, set a renderer in the notebook (pio.renderers.default).
 
+### Run the MinIO + DuckDB SPY dashboard
+```zsh
+source antman_env/bin/activate
+code notebooks/minio_spy_dashboard.ipynb  # or open in VS Code UI
+```
+- In the notebook, run the first cells to configure DuckDB httpfs from your `.env`.
+- In the loader cell, set `SAMPLE_DT` (e.g., `2025-03-11`) or use the interactive widget at the bottom.
+- The last section renders a candlestick + volume chart with EMAs, Bollinger bands, and an RSI pane.
+
+Quick validation (from Python cell in the notebook or terminal): ensure counts are non-zero for a trading day you ingested.
+```python
+con.execute("""
+SELECT COUNT(*)
+FROM read_parquet('s3://%s/silver/symbol=SPY/resolution=1min/dt=2025-03-11/*.parquet')
+""" % os.getenv('MINIO_BUCKET','antman-lake')).fetchone()
+```
+
 ## Troubleshooting
-- Port 9000/9001 already in use: set 9100/9101 in `.env` (as shown) and re-run `make up`.
+- Port 9000/9001 already in use: set 9100/9101 in `.env` (as shown) and re-run `docker compose up -d`.
 - DuckDB S3 error with `//localhost`: set `SET s3_endpoint='127.0.0.1:9100'` (no scheme) and ensure `s3_url_style='path'`.
-- Bucket not listed: run `make bucket` (idempotent) or check credentials in `.env`.
+- Bucket not listed: re-run the mc mb/ls commands above or check credentials in `.env`.
 
 ## Next steps
 - Wire the Alpaca fetchers to write daily bars directly to MinIO paths.

@@ -31,34 +31,3 @@ FROM read_parquet(
   filename=true
 )
 ORDER BY ts NULLS LAST;
-
--- Gold view (partitioned by symbol, resolution, dt)
-CREATE OR REPLACE VIEW lake.gold_bars AS
-SELECT
-  COALESCE(utc_timestamp, "timestamp", datetime, ts) AS ts,
-  open, high, low, close, volume,
-  try_cast(regexp_extract(filename, 'symbol=([^/]+)', 1) AS VARCHAR) AS symbol,
-  try_cast(regexp_extract(filename, 'resolution=([^/]+)', 1) AS VARCHAR) AS resolution,
-  try_cast(regexp_extract(filename, 'dt=([0-9\-]+)', 1) AS DATE) AS dt
-FROM read_parquet(
-  's3://${MINIO_BUCKET}/gold/symbol=*/resolution=*/dt=*/part-*.parquet',
-  hive_partitioning=true,
-  union_by_name=true,
-  filename=true
-)
-ORDER BY ts NULLS LAST;
-
--- Gold view (reads from gold/ path). Adjust symbol/resolution as needed.
-CREATE OR REPLACE VIEW lake.gold_spy_1min AS
-SELECT
-  COALESCE(utc_timestamp, "timestamp", datetime) AS ts,
-  open, high, low, close, volume,
-  try_cast(regexp_extract(filename, 'symbol=([^/]+)', 1) AS VARCHAR) AS symbol,
-  try_cast(regexp_extract(filename, 'dt=([0-9\-]+)', 1) AS DATE) AS dt
-FROM read_parquet(
-  's3://${MINIO_BUCKET}/gold/symbol=SPY/resolution=1min/dt=*/part-*.parquet',
-  hive_partitioning=true,
-  union_by_name=true,
-  filename=true
-)
-ORDER BY ts NULLS LAST;

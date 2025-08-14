@@ -5,13 +5,13 @@ This repo includes a local MinIO (S3-compatible) object store and a DuckDB httpf
 ## Quick start
 
 1. Copy `.env.example` to `.env` and edit as needed.
-2. Start MinIO:
-   - make up
-   - make console  # prints URL and credentials
-3. Create the bucket:
-   - make bucket
-4. Open DuckDB CLI with httpfs configured:
-   - make duck
+2. Start MinIO via Docker Compose:
+   - `docker compose up -d`
+   - Console at http://localhost:9101 (creds from `.env`)
+3. Create the bucket via `mc` container:
+   - `docker run --rm --network antman -e MC_HOST_antman=http://$MINIO_ROOT_USER:$MINIO_ROOT_PASSWORD@minio:9000 quay.io/minio/mc mb -p antman/$MINIO_BUCKET || true`
+   - `docker run --rm --network antman -e MC_HOST_antman=http://$MINIO_ROOT_USER:$MINIO_ROOT_PASSWORD@minio:9000 quay.io/minio/mc ls antman/$MINIO_BUCKET`
+4. Use DuckDB (Python or CLI) and run `configs/duckdb_init.sql` if needed.
 
 ## Suggested S3 layout
 

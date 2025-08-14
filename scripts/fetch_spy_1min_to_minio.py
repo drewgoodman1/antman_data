@@ -20,7 +20,9 @@ FIELD_MAP = {
 
 
 def parse_args():
-    p = argparse.ArgumentParser(description="Fetch 1min bars from Alpaca and write to MinIO as Parquet")
+    p = argparse.ArgumentParser(
+        description="Fetch 1min bars from Alpaca and write to MinIO as Parquet"
+    )
     p.add_argument("--ticker", default="SPY")
     p.add_argument("--start", required=True, help="YYYY-MM-DD (inclusive)")
     p.add_argument("--end", help="YYYY-MM-DD (inclusive); defaults to --start")
@@ -39,19 +41,26 @@ def load_env():
     load_dotenv()
     return {
         "API_KEY": os.getenv("APCA_API_KEY_ID") or os.getenv("ALPACA_API_KEY"),
-        "API_SECRET": os.getenv("APCA_API_SECRET_KEY") or os.getenv("ALPACA_SECRET_KEY"),
+        "API_SECRET": os.getenv("APCA_API_SECRET_KEY")
+        or os.getenv("ALPACA_SECRET_KEY"),
         "BASE_URL": "https://data.alpaca.markets/v2/stocks",  # we'll append /{ticker}/bars
         "BUCKET": os.getenv("MINIO_BUCKET", "antman-lake"),
         # s3 endpoint: prefer host:port without scheme; strip if present
-        "S3_ENDPOINT": (os.getenv("S3_ENDPOINT_URL") or "127.0.0.1:9100").replace("http://", "").replace("https://", ""),
+        "S3_ENDPOINT": (os.getenv("S3_ENDPOINT_URL") or "127.0.0.1:9100")
+        .replace("http://", "")
+        .replace("https://", ""),
         "S3_REGION": os.getenv("S3_REGION", "us-east-1"),
         "S3_USE_SSL": os.getenv("S3_USE_SSL", "false"),
-        "S3_ACCESS_KEY": os.getenv("S3_ACCESS_KEY_ID") or os.getenv("MINIO_ROOT_USER", "minioadmin"),
-        "S3_SECRET_KEY": os.getenv("S3_SECRET_ACCESS_KEY") or os.getenv("MINIO_ROOT_PASSWORD", "minioadmin"),
+        "S3_ACCESS_KEY": os.getenv("S3_ACCESS_KEY_ID")
+        or os.getenv("MINIO_ROOT_USER", "minioadmin"),
+        "S3_SECRET_KEY": os.getenv("S3_SECRET_ACCESS_KEY")
+        or os.getenv("MINIO_ROOT_PASSWORD", "minioadmin"),
     }
 
 
-def fetch_day(ticker: str, day: date, api_key: str, api_secret: str, base_url: str) -> pd.DataFrame:
+def fetch_day(
+    ticker: str, day: date, api_key: str, api_secret: str, base_url: str
+) -> pd.DataFrame:
     # Use US/Eastern RTH window. For simplicity, use -05:00 offset; adjust if you need DST-aware windows.
     day_str = day.strftime("%Y-%m-%d")
     start = f"{day_str}T09:30:00-05:00"
@@ -92,7 +101,9 @@ def fetch_day(ticker: str, day: date, api_key: str, api_secret: str, base_url: s
     if "ts" in df.columns:
         df["ts"] = pd.to_datetime(df["ts"], utc=True, errors="coerce")
     # Ensure column order
-    cols = [c for c in ["ts", "open", "high", "low", "close", "volume"] if c in df.columns]
+    cols = [
+        c for c in ["ts", "open", "high", "low", "close", "volume"] if c in df.columns
+    ]
     return df[cols] if cols else df
 
 
@@ -135,7 +146,9 @@ def main():
 
     for d in daterange(start_dt, end_dt):
         try:
-            df = fetch_day(args.ticker, d, env["API_KEY"], env["API_SECRET"], env["BASE_URL"])
+            df = fetch_day(
+                args.ticker, d, env["API_KEY"], env["API_SECRET"], env["BASE_URL"]
+            )
             write_day_to_minio(df, args.ticker, d, env)
         except Exception as e:
             print(f"Error on {d}: {e}")
