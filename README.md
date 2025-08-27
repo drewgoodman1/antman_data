@@ -1,110 +1,161 @@
-# antman_data
+# Antman Data  
 
-Data engineering sandbox for market data using DuckDB over Parquet with a local MinIO (S3-compatible) data lake.
+[![CI](https://github.com/drewgoodman1/antman_data/actions/workflows/ci.yml/badge.svg)](https://github.com/drewgoodman1/antman_data/actions/workflows/ci.yml)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
+[![Repo Size](https://img.shields.io/github/repo-size/drewgoodman1/antman_data)](https://github.com/drewgoodman1/antman_data)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](/LICENSE)
 
-## Prerequisites
-- Linux, macOS, or WSL
-- Docker + Docker Compose
-- Python 3.10+ (local venv recommended)
+A compact research and data-engineering sandbox for market data and trading strategy prototyping.
 
-## 1) Clone and set up Python env
+---
+
+![demo](docs/assets/demo.svg)
+
+## Why this repo
+
+Antman Data combines fast, local analytics (DuckDB + Parquet) with a small, reproducible data lake (MinIO) and a live/paper trading agent (WASP). It’s designed for quick iteration: collect data, run parameter sweeps, validate on historical data, and run a scheduled live bot that mirrors backtest session filters.
+
+## Highlights
+
+- Local MinIO S3-compatible data lake (partitioned Parquet)
+- DuckDB for fast SQL analytics over Parquet
+- ETL scripts to ingest and transform market data
+- WASP trading bot with Alpaca integration and systemd scheduler examples
+- Jupyter notebooks for grid search, equity curves, and dashboards
+
+---
+
+## Table of contents
+
+- [Quick start](#quick-start)
+- [Usage examples](#usage-examples)
+- [WASP trading bot](#wasp-trading-bot)
+- [Scheduler & CI](#scheduler--ci)
+- [Project structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
+- [Business value](#business-value)
+
+---
+
+## Quick start
+
+1. Clone and create a venv
+
 ```zsh
-# from project root
+git clone https://github.com/drewgoodman1/antman_data.git
+cd antman_data
 python -m venv antman_env
 source antman_env/bin/activate
 pip install -r requirements_essential.txt -r requirements.txt
 ```
 
-## 2) Configure environment
-Copy and edit `.env.example` → `.env`.
+2. Copy env and configure credentials
 
-Important values:
-- MINIO_ROOT_USER / MINIO_ROOT_PASSWORD
-- MINIO_PORT=9100, MINIO_CONSOLE_PORT=9101 (avoid conflicts)
-- MINIO_BUCKET=antman-lake
-- S3_ENDPOINT_URL=127.0.0.1:9100 (no http://)
-- S3_USE_SSL=false
+```zsh
+cp .env.example .env
+# edit .env and set MINIO_*, S3_*, and ALPACA_* values
+```
 
-## 3) Start MinIO and create the bucket (no Makefile)
+3. Start MinIO (local S3)
+
 ```zsh
 docker compose up -d
-docker compose ps
-```
-Create bucket via mc container (idempotent):
-```zsh
-docker run --rm --network antman \
-  -e MC_HOST_antman=http://$MINIO_ROOT_USER:$MINIO_ROOT_PASSWORD@minio:9000 \
-  quay.io/minio/mc mb -p antman/$MINIO_BUCKET || true
-docker run --rm --network antman \
-  -e MC_HOST_antman=http://$MINIO_ROOT_USER:$MINIO_ROOT_PASSWORD@minio:9000 \
-  quay.io/minio/mc ls antman/$MINIO_BUCKET
-```
-MinIO console: http://localhost:9101
-
-## 4) Load sample data to the lake
-Option A (CLI via mc container):
-```zsh
-# one-day SPY parquet local → MinIO partitioned path
-docker run --rm --network antman \
-  -e MC_HOST_antman=http://$MINIO_ROOT_USER:$MINIO_ROOT_PASSWORD@minio:9000 \
-  -v "$PWD/data/bronze/SPY:/src:ro" quay.io/minio/mc \
-  cp /src/spy_1min_2025-01-02.parquet \
-  antman/$MINIO_BUCKET/silver/symbol=SPY/resolution=1min/dt=2025-01-02/part-000.parquet
+# MinIO console: http://localhost:9101
 ```
 
-Option B (Python/DuckDB):
+4. Upload a sample day (Python helper)
+
 ```zsh
 source antman_env/bin/activate
 DAY=2025-01-02 python scripts/upload_spy_day_to_minio.py
 ```
 
-## 5) Query the lake with DuckDB
+5. Open notebooks
+
 ```zsh
-python - <<'PY'
+code notebooks/minio_spy_dashboard.ipynb
+# or open in JupyterLab / VS Code Notebook UI
+```
+
+---
+
+## Usage examples
+
+Query the data lake from Python (DuckDB + httpfs):
+
+```python
 import os, duckdb
 con = duckdb.connect()
 con.execute("INSTALL httpfs; LOAD httpfs;")
 con.execute("SET s3_url_style='path';")
 con.execute("SET s3_use_ssl='false';")
-con.execute("SET s3_region='us-east-1';")
 con.execute("SET s3_endpoint='127.0.0.1:9100';")
-ak = os.getenv('S3_ACCESS_KEY_ID') or os.getenv('MINIO_ROOT_USER') or 'minioadmin'
-sk = os.getenv('S3_SECRET_ACCESS_KEY') or os.getenv('MINIO_ROOT_PASSWORD') or 'minioadmin'
-con.execute("SET s3_access_key_id=$1;", [ak])
-con.execute("SET s3_secret_access_key=$1;", [sk])
-print(con.execute("""
-SELECT COUNT(*)
-FROM read_parquet('s3://%s/silver/symbol=SPY/resolution=1min/dt=2025-01-02/*.parquet')
-""" % os.getenv('MINIO_BUCKET','antman-lake')).fetchone())
-PY
+con.execute("SET s3_access_key_id=$1;", [os.getenv('MINIO_ROOT_USER','minioadmin')])
+con.execute("SET s3_secret_access_key=$1;", [os.getenv('MINIO_ROOT_PASSWORD','minioadmin')])
+print(con.execute("SELECT COUNT(*) FROM read_parquet('s3://%s/silver/symbol=SPY/resolution=1min/dt=2025-01-02/*.parquet')" % os.getenv('MINIO_BUCKET','antman-lake')).fetchone())
 ```
 
-## 6) Notebooks
-- See `notebooks/` for dashboards and comparisons (pandas vs DuckDB).
-- If Plotly charts don’t render in VS Code, set a renderer in the notebook (pio.renderers.default).
+See notebooks for ready-made visualizations and interactive widgets.
 
-### Run the MinIO + DuckDB SPY dashboard
-```zsh
-source antman_env/bin/activate
-code notebooks/minio_spy_dashboard.ipynb  # or open in VS Code UI
-```
-- In the notebook, run the first cells to configure DuckDB httpfs from your `.env`.
-- In the loader cell, set `SAMPLE_DT` (e.g., `2025-03-11`) or use the interactive widget at the bottom.
-- The last section renders a candlestick + volume chart with EMAs, Bollinger bands, and an RSI pane.
+---
 
-Quick validation (from Python cell in the notebook or terminal): ensure counts are non-zero for a trading day you ingested.
-```python
-con.execute("""
-SELECT COUNT(*)
-FROM read_parquet('s3://%s/silver/symbol=SPY/resolution=1min/dt=2025-03-11/*.parquet')
-""" % os.getenv('MINIO_BUCKET','antman-lake')).fetchone()
+## WASP trading bot
+
+- Strategy: Fibonacci retracements + EMA/RSI filters + ATR volatility check.
+- Live execution: Alpaca (paper/live) via `trading/wasp.py` and `scripts/run_wasp.sh`.
+- Scheduling: systemd user/system timers provided as examples to align live windows with backtests.
+
+Notes: trades and signals are logged as CSVs in `data/` by default. The repo intentionally stores only code and small sample data — large data artifacts are ignored (`*.csv` in `.gitignore`).
+
+---
+
+## Scheduler & CI
+
+- A lightweight GitHub Actions workflow (`.github/workflows/ci.yml`) runs a smoke test and provides the repo badge above.
+- Example systemd unit files are in repo notes and the repo includes helper scripts to run the WASP bot in a venv.
+
+---
+
+## Project structure
+
 ```
+antman_data/
+├── data/           # Bronze, silver, gold market data (gitignored)
+├── dags/           # Airflow DAGs (optional)
+├── notebooks/      # Jupyter research & dashboards
+├── scripts/        # ETL, fetchers, uploaders, helpers
+├── trading/        # WASP bot and strategy code
+├── configs/        # SQL, dbt, and config files
+├── requirements*.txt
+└── README.md
+```
+
+---
 
 ## Troubleshooting
-- Port 9000/9001 already in use: set 9100/9101 in `.env` (as shown) and re-run `docker compose up -d`.
-- DuckDB S3 error with `//localhost`: set `SET s3_endpoint='127.0.0.1:9100'` (no scheme) and ensure `s3_url_style='path'`.
-- Bucket not listed: re-run the mc mb/ls commands above or check credentials in `.env`.
 
-## Next steps
-- Wire the Alpaca fetchers to write daily bars directly to MinIO paths.
-- Add dbt models or DuckDB views under `configs/duckdb_init.sql` for common queries.
+- MinIO console not reachable: verify ports in `.env` and use `docker compose ps`.
+- DuckDB S3 errors: set `s3_endpoint='127.0.0.1:9100'` (no scheme) and `s3_url_style='path'`.
+- Missing data: run `scripts/upload_spy_day_to_minio.py` for a quick sample.
+
+---
+
+## Business value
+
+- Shortens research cycles for trading strategies.
+- Keeps a reproducible local environment for demos and audits.
+- Bridges engineering (Parquet/DuckDB) with live execution (Alpaca) for faster go/no-go decisions.
+
+---
+
+## Want it to look extra-cool on GitHub?
+
+- Add a short demo GIF under `docs/assets/demo.gif` and reference it near the top of this README to animate the hero section.
+- Enable the GitHub Actions CI (already added) — the badge above will show status.
+- Add a `LICENSE` file and release notes to enable release badges.
+
+---
+
+## Contact
+
+For demos or questions: yourname@yourcompany.com
