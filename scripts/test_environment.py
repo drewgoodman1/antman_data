@@ -134,5 +134,81 @@ def main():
     return all(results)
 
 
+#!/usr/bin/env python3
+"""Simple environment auditor for antman_data.
+
+This script is intentionally non-failing for CI. It reports which key
+environment variables and optional services are configured and prints
+lightweight hints for local onboarding.
+
+Run locally after copying `.env.example` → `.env` and filling credentials.
+"""
+
+from __future__ import annotations
+
+import os
+from dotenv import load_dotenv
+
+
+def check_env_vars(required: list[str], optional: list[str] | None = None) -> dict:
+    found = {k: bool(os.getenv(k)) for k in required}
+    optional_found = {k: bool(os.getenv(k)) for k in (optional or [])}
+    return {"required": found, "optional": optional_found}
+
+
+def print_report(report: dict) -> None:
+    req = report["required"]
+    opt = report["optional"]
+    missing = [k for k, v in req.items() if not v]
+    print("\nEnvironment audit")
+    print("-" * 20)
+    if missing:
+        print(f"\u26a0 Missing required variables: {missing}")
+    else:
+        print("\u2705 All required variables appear set")
+
+    if opt:
+        not_set = [k for k, v in opt.items() if not v]
+        if not_set:
+            print(f"i Optional variables not set (ok): {not_set}")
+
+
+def main() -> int:
+    load_dotenv()
+
+    required = [
+        "APCA_API_KEY_ID",
+        "APCA_API_SECRET_KEY",
+        "MINIO_ROOT_USER",
+        "MINIO_ROOT_PASSWORD",
+    ]
+
+    optional = [
+        "MINIO_BUCKET",
+        "S3_ENDPOINT_URL",
+        "S3_ACCESS_KEY_ID",
+        "S3_SECRET_ACCESS_KEY",
+    ]
+
+    report = check_env_vars(required, optional)
+    print_report(report)
+
+    # Helpful local hints
+    if not os.getenv("MINIO_ROOT_USER"):
+        print(
+            "\nHint: run `docker compose up -d` and set MINIO_ROOT_USER/MINIO_ROOT_PASSWORD in .env"
+        )
+
+    if not os.getenv("APCA_API_KEY_ID"):
+        print(
+            "Hint: set Alpaca keys (APCA_API_KEY_ID / APCA_API_SECRET_KEY) for live/paper runs"
+        )
+
+    print(
+        "\nNote: CI runs are non-failing by design. This script prints useful checks for local setup."
+    )
+    return 0
+
+
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
