@@ -6,3 +6,5 @@ data/
 __pycache__/
 *.db
 data/minio/
+# Ignore all CSV files
+*.csv
