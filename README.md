@@ -4,12 +4,13 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![Repo Size](https://img.shields.io/github/repo-size/drewgoodman1/antman_data)](https://github.com/drewgoodman1/antman_data)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](/LICENSE)
+[![Release](https://img.shields.io/github/v/release/drewgoodman1/antman_data)](https://github.com/drewgoodman1/antman_data/releases)
 
 A compact research and data-engineering sandbox for market data and trading strategy prototyping.
 
 ---
 
-![demo](docs/assets/demo.svg)
+<!-- demo image removed per request -->
 
 ## Why this repo
 
@@ -148,14 +149,31 @@ antman_data/
 
 ---
 
-## Want it to look extra-cool on GitHub?
+## Make it look extra-cool on GitHub
 
-- Add a short demo GIF under `docs/assets/demo.gif` and reference it near the top of this README to animate the hero section.
-- Enable the GitHub Actions CI (already added) — the badge above will show status.
-- Add a `LICENSE` file and release notes to enable release badges.
+Follow these small, proven steps to give reviewers a crisp first impression:
+
+- Add a demo GIF (preferred) or screenshot at `docs/assets/demo.gif` and embed it near the top of this README. Example embed (replace the SVG):
+
+	<p align="center"><img src="docs/assets/demo.gif" alt="demo" width="800"/></p>
+
+- Badges: CI and license badges are already included. To add a release or coverage badge, use shields.io links. Example markdown for a release badge:
+
+	```md
+	[![Release](https://img.shields.io/github/v/release/drewgoodman1/antman_data)](https://github.com/drewgoodman1/antman_data/releases)
+	```
+
+- LICENSE: a `LICENSE` (MIT) was added to enable license badges and clarify reuse.
+
+- CI: the GitHub Actions workflow was added. Merge this branch into `main` or create a PR to run the workflow and show the CI badge status.
+
+If you want, I can:
+
+- Produce a short demo GIF from an existing notebook output or a recorded dashboard clip.
+- Add a `RELEASE` workflow to tag releases and publish a release badge.
 
 ---
 
 ## Contact
 
-For demos or questions: yourname@yourcompany.com
+For demos or questions: goodman.drew1@gmail.com
