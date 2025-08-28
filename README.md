@@ -10,7 +10,7 @@ A compact research and data-engineering sandbox for market data and trading stra
 
 ---
 
-<p align="center"><img src="docs/assets/demo.svg" width="800" alt="demo"/></p>
+<!-- demo image removed per request -->
 
 ## Why this repo
 
