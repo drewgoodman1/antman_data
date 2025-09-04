@@ -1,0 +1,1475 @@
+nohup: ignoring input
+[WASP] Using data feed: IEX
+WASP initialized. Buying power: 400320.72
+[WASP] Backfilled 8 bars.
+2025-08-29 13:43:42,424 INFO [WASP] starting up
+2025-08-29 13:43:42,939 INFO [WASP] starting market data stream
+2025-08-29 13:43:42,940 INFO [WASP] starting trade update stream
+2025-08-29 13:43:42,940 INFO started data stream
+2025-08-29 13:43:42,940 INFO started trading stream
+2025-08-29 13:43:42,941 INFO starting data websocket connection
+2025-08-29 13:43:42,941 INFO starting trading websocket connection
+2025-08-29 13:43:42,941 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-08-29 13:43:43,208 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-08-29 13:43:43,237 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-08-29 13:43:43,256 INFO subscribed to bars: ['SPY']
+2025-08-29 16:00:37,518 WARNING trading stream websocket error, restarting  connection: no close frame received or sent
+2025-08-29 16:00:37,550 INFO starting trading websocket connection
+2025-08-29 16:00:38,152 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-08-29 18:47:18,348 INFO [WASP] signal 2 received, shutting down
+2025-08-30 00:04:38,479 WARNING trading stream websocket error, restarting  connection: no close frame received or sent
+2025-08-30 00:04:38,485 WARNING data websocket error, restarting connection: no close frame received or sent
+2025-08-30 00:04:38,504 INFO starting trading websocket connection
+2025-08-30 00:04:38,505 INFO starting data websocket connection
+2025-08-30 00:04:38,519 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-08-30 00:28:43,630 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-08-30 00:28:43,632 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-08-30 00:28:43,752 INFO subscribed to bars: ['SPY']
+2025-09-02 08:05:38,821 INFO [WASP] starting up
+2025-09-02 08:05:39,812 INFO [WASP] starting market data stream
+2025-09-02 08:05:39,813 INFO [WASP] starting trade update stream
+2025-09-02 08:05:39,815 INFO started trading stream
+2025-09-02 08:05:39,816 INFO started data stream
+2025-09-02 08:05:39,816 INFO starting trading websocket connection
+2025-09-02 08:05:39,817 INFO starting data websocket connection
+2025-09-02 08:05:39,821 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-09-02 08:05:40,116 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-09-02 08:05:40,233 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-09-02 08:05:40,279 INFO subscribed to bars: ['SPY']
+2025-09-02 13:52:09,868 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"e0bc1e4a-130b-4f7f-90da-1b5619d51384","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"e0bc1e4a-130b-4f7f-90da-1b5619d51384","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 13:53:09,026 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"9653fa6b-cbba-46c5-b99b-10157e940c94","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"9653fa6b-cbba-46c5-b99b-10157e940c94","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 13:54:08,807 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"85dbff3e-f4f1-4096-a5a7-11c8c269e361","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"85dbff3e-f4f1-4096-a5a7-11c8c269e361","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 13:55:09,059 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"a8a78eb8-2c4d-404d-89e2-7e35d585be6b","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"a8a78eb8-2c4d-404d-89e2-7e35d585be6b","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 13:56:08,957 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"88702.86","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"88702.86","message":"insufficient buying power"}
+2025-09-02 13:57:08,921 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"187674.91","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"187674.91","message":"insufficient buying power"}
+2025-09-02 13:58:08,913 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"195280.03","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"195280.03","message":"insufficient buying power"}
+2025-09-02 13:59:08,985 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"218192.59","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"218192.59","message":"insufficient buying power"}
+2025-09-02 14:00:09,079 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"551318.43","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"551318.43","message":"insufficient buying power"}
+2025-09-02 14:01:08,990 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"363295.14","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"363295.14","message":"insufficient buying power"}
+2025-09-02 14:02:08,906 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"93215.17","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"93215.17","message":"insufficient buying power"}
+2025-09-02 14:03:08,917 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"104067.36","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"104067.36","message":"insufficient buying power"}
+2025-09-02 14:04:08,769 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"112324.97","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"112324.97","message":"insufficient buying power"}
+2025-09-02 14:05:08,981 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"123857.37","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"123857.37","message":"insufficient buying power"}
+2025-09-02 14:06:09,120 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"115541.36","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"115541.36","message":"insufficient buying power"}
+2025-09-02 14:07:08,990 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"120038.01","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"120038.01","message":"insufficient buying power"}
+2025-09-02 14:08:08,761 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"109796.21","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"109796.21","message":"insufficient buying power"}
+2025-09-02 14:09:08,941 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"107906.51","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"107906.51","message":"insufficient buying power"}
+2025-09-02 14:10:08,937 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"100890.91","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"100890.91","message":"insufficient buying power"}
+2025-09-02 14:11:09,062 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"93223.93","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"93223.93","message":"insufficient buying power"}
+2025-09-02 14:12:08,931 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"98948.91","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"98948.91","message":"insufficient buying power"}
+2025-09-02 14:13:08,952 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"111132.07","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"111132.07","message":"insufficient buying power"}
+2025-09-02 14:14:08,973 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"86219.11","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"86219.11","message":"insufficient buying power"}
+2025-09-02 14:15:08,949 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"79846.26","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"79846.26","message":"insufficient buying power"}
+2025-09-02 14:16:09,035 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"72178.76","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"72178.76","message":"insufficient buying power"}
+2025-09-02 14:17:09,033 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"73460.86","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"73460.86","message":"insufficient buying power"}
+2025-09-02 14:18:08,945 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"66442.49","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"66442.49","message":"insufficient buying power"}
+2025-09-02 14:19:08,978 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"62626.91","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"62626.91","message":"insufficient buying power"}
+2025-09-02 14:20:09,004 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"51767.92","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"51767.92","message":"insufficient buying power"}
+2025-09-02 14:21:09,024 ERROR error during websocket communication: {"buying_power":"28996.45","code":40310000,"cost_basis":"51775.21","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"28996.45","code":40310000,"cost_basis":"51775.21","message":"insufficient buying power"}
+2025-09-02 14:22:09,035 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"2b265c71-336a-42cb-8b93-efca280067f0","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"2b265c71-336a-42cb-8b93-efca280067f0","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 14:23:08,961 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"6af3bec1-b16f-4219-96d8-64c62d198f4d","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"6af3bec1-b16f-4219-96d8-64c62d198f4d","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 14:24:08,847 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"bdc3e2d1-aaed-4fad-a77b-a8932bff0226","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"bdc3e2d1-aaed-4fad-a77b-a8932bff0226","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 14:25:09,015 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"8bb80e67-190f-4d48-80b3-4ab7c0902a64","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"8bb80e67-190f-4d48-80b3-4ab7c0902a64","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 14:25:14,177 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:25:14,280 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:25:14,404 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:26:09,041 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"f2dde830-dd1e-4806-a252-7184c4111e3e","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"f2dde830-dd1e-4806-a252-7184c4111e3e","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 14:27:09,141 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"56c5484b-8b09-4641-b1b5-dcdddc26437f","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"56c5484b-8b09-4641-b1b5-dcdddc26437f","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 14:28:08,985 ERROR error during websocket communication: {"buying_power":"53677.31","code":40310000,"cost_basis":"54954.01","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"53677.31","code":40310000,"cost_basis":"54954.01","message":"insufficient buying power"}
+2025-09-02 14:29:08,869 ERROR error during websocket communication: {"buying_power":"53677.31","code":40310000,"cost_basis":"55606.06","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"53677.31","code":40310000,"cost_basis":"55606.06","message":"insufficient buying power"}
+2025-09-02 14:30:09,143 ERROR error during websocket communication: {"code":40310000,"existing_order_id":"261157f3-e8ce-48f0-aa98-44df3bdd7927","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 434, in _enter_next_open
+    tp1_ord = self.client.submit_order(tp1_req)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"code":40310000,"existing_order_id":"261157f3-e8ce-48f0-aa98-44df3bdd7927","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"}
+2025-09-02 14:31:09,079 ERROR error during websocket communication: {"buying_power":"2547.56","code":40310000,"cost_basis":"49220.72","message":"insufficient buying power"}
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 198, in _one_request
+    response.raise_for_status()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://paper-api.alpaca.markets/v2/orders
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 346, in _run_forever
+    await self._consume()
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 164, in _consume
+    await self._dispatch(msg)
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/data/live/websocket.py", line 262, in _dispatch
+    await handler(self._cast(msg))
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 277, in on_bar
+    await self._enter_next_open(self.pending, ts_dt)
+  File "/home/agoodman/workspace/antman_data/trading/wasp_v2.py", line 401, in _enter_next_open
+    self.client.submit_order(
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/trading/client.py", line 100, in submit_order
+    response = self.post("/orders", data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 240, in post
+    return self._request("POST", path, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 131, in _request
+    return self._one_request(method, url, opts, retry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/agoodman/workspace/antman_data/antman_env/lib/python3.12/site-packages/alpaca/common/rest.py", line 207, in _one_request
+    raise APIError(error, http_error)
+alpaca.common.exceptions.APIError: {"buying_power":"2547.56","code":40310000,"cost_basis":"49220.72","message":"insufficient buying power"}
+2025-09-02 14:31:41,252 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:41,389 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:41,468 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:44,179 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:44,332 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:44,458 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:44,589 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:44,832 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:50,818 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:50,959 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:51,116 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:51,240 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:31:51,381 INFO [WASP] signal 2 received, shutting down
+2025-09-02 14:33:35,296 INFO [WASP] starting up
+2025-09-02 14:33:42,094 INFO [WASP] starting up
+2025-09-03 08:08:05,076 INFO [WASP] starting up
+2025-09-03 08:08:06,142 INFO [WASP] starting market data stream
+2025-09-03 08:08:06,143 INFO [WASP] starting trade update stream
+2025-09-03 08:08:06,144 INFO started trading stream
+2025-09-03 08:08:06,144 INFO started data stream
+2025-09-03 08:08:06,145 INFO starting trading websocket connection
+2025-09-03 08:08:06,146 INFO starting data websocket connection
+2025-09-03 08:08:06,150 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-09-03 08:08:06,875 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-09-03 08:08:07,994 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-09-03 08:08:08,052 INFO subscribed to bars: ['SPY']
+2025-09-03 09:32:01,930 INFO [WASP] Trade update → flat. Back to scanning.
+2025-09-03 09:32:01,991 INFO [WASP] Trade update → flat. Back to scanning.
+2025-09-03 09:32:02,046 INFO [WASP] Trade update → flat. Back to scanning.
+2025-09-03 09:32:02,101 INFO [WASP] Trade update → flat. Back to scanning.
+2025-09-03 09:43:30,070 INFO [WASP] signal 2 received, shutting down
+2025-09-03 09:47:29,419 INFO [WASP] starting up
+2025-09-03 09:47:30,026 INFO [WASP] starting market data stream
+2025-09-03 09:47:30,028 INFO [WASP] starting trade update stream
+2025-09-03 09:47:30,029 INFO started data stream
+2025-09-03 09:47:30,030 INFO starting data websocket connection
+2025-09-03 09:47:30,030 INFO started trading stream
+2025-09-03 09:47:30,030 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-09-03 09:47:30,031 INFO starting trading websocket connection
+2025-09-03 09:47:30,234 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-09-03 09:47:30,317 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-09-03 09:47:30,404 INFO subscribed to bars: ['SPY']
+2025-09-03 09:47:36,407 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=99db57e3-a0b0-4839-b6c4-af878f6afd89 filled=2 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 09:47:36,409 INFO [WASP] trade_update ev=canceled sym=SPY oid=2c18a37b-e6b2-4984-9941-d262a34977ff filled=0 status=OrderStatus.CANCELED
+2025-09-03 09:47:36,746 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=99db57e3-a0b0-4839-b6c4-af878f6afd89 filled=5 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 09:47:39,159 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=99db57e3-a0b0-4839-b6c4-af878f6afd89 filled=7 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 09:47:47,074 INFO [WASP] trade_update ev=fill sym=SPY oid=99db57e3-a0b0-4839-b6c4-af878f6afd89 filled=8 status=OrderStatus.FILLED
+2025-09-03 09:47:47,684 INFO [WASP] Trade update → flat. Back to scanning.
+2025-09-03 13:27:04,611 INFO [WASP] trade_update ev=held sym=SPY oid=111421ce-f8e5-4075-a4ec-9c94ff0fb393 filled=0 status=OrderStatus.HELD
+2025-09-03 13:27:04,624 INFO [WASP] trade_update ev=held sym=SPY oid=216faaba-6b46-40c5-be52-a60d053a8f29 filled=0 status=OrderStatus.HELD
+2025-09-03 13:27:04,625 INFO [WASP] trade_update ev=pending_new sym=SPY oid=3b942a34-3f66-47f8-abd2-1159700093de filled=0 status=OrderStatus.PENDING_NEW
+2025-09-03 13:27:04,625 INFO [WASP] trade_update ev=new sym=SPY oid=3b942a34-3f66-47f8-abd2-1159700093de filled=0 status=OrderStatus.NEW
+2025-09-03 13:27:04,635 INFO [WASP] trade_update ev=held sym=SPY oid=3f80e03e-6c00-482f-8638-d876bd847c73 filled=0 status=OrderStatus.HELD
+2025-09-03 13:27:04,635 INFO [WASP] trade_update ev=held sym=SPY oid=b3968a09-ecf0-4dd7-9a26-322ff1820e7f filled=0 status=OrderStatus.HELD
+2025-09-03 13:27:04,636 INFO [WASP] trade_update ev=pending_new sym=SPY oid=53f13183-3671-4810-b969-3d9d207494e5 filled=0 status=OrderStatus.PENDING_NEW
+2025-09-03 13:27:04,649 INFO [WASP] trade_update ev=new sym=SPY oid=53f13183-3671-4810-b969-3d9d207494e5 filled=0 status=OrderStatus.NEW
+2025-09-03 13:27:04,970 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=3b942a34-3f66-47f8-abd2-1159700093de filled=3 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:27:04,989 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=53f13183-3671-4810-b969-3d9d207494e5 filled=7 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:27:05,589 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=3b942a34-3f66-47f8-abd2-1159700093de filled=5 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:27:05,613 INFO [WASP] trade_update ev=fill sym=SPY oid=53f13183-3671-4810-b969-3d9d207494e5 filled=8 status=OrderStatus.FILLED
+2025-09-03 13:27:05,682 INFO [WASP] trade_update ev=accepted sym=SPY oid=3f80e03e-6c00-482f-8638-d876bd847c73 filled=0 status=OrderStatus.ACCEPTED
+2025-09-03 13:27:05,682 INFO [WASP] trade_update ev=new sym=SPY oid=3f80e03e-6c00-482f-8638-d876bd847c73 filled=0 status=OrderStatus.NEW
+2025-09-03 13:27:06,023 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=3b942a34-3f66-47f8-abd2-1159700093de filled=6 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:27:06,387 INFO [WASP] trade_update ev=fill sym=SPY oid=3b942a34-3f66-47f8-abd2-1159700093de filled=7 status=OrderStatus.FILLED
+2025-09-03 13:27:06,438 INFO [WASP] trade_update ev=accepted sym=SPY oid=111421ce-f8e5-4075-a4ec-9c94ff0fb393 filled=0 status=OrderStatus.ACCEPTED
+2025-09-03 13:27:06,439 INFO [WASP] trade_update ev=new sym=SPY oid=111421ce-f8e5-4075-a4ec-9c94ff0fb393 filled=0 status=OrderStatus.NEW
+2025-09-03 13:31:54,524 INFO [WASP] trade_update ev=canceled sym=SPY oid=3f80e03e-6c00-482f-8638-d876bd847c73 filled=0 status=OrderStatus.CANCELED
+2025-09-03 13:31:54,615 INFO [WASP] trade_update ev=accepted sym=SPY oid=b3968a09-ecf0-4dd7-9a26-322ff1820e7f filled=0 status=OrderStatus.ACCEPTED
+2025-09-03 13:31:54,618 INFO [WASP] trade_update ev=canceled sym=SPY oid=111421ce-f8e5-4075-a4ec-9c94ff0fb393 filled=0 status=OrderStatus.CANCELED
+2025-09-03 13:31:54,667 INFO [WASP] trade_update ev=accepted sym=SPY oid=216faaba-6b46-40c5-be52-a60d053a8f29 filled=0 status=OrderStatus.ACCEPTED
+2025-09-03 13:31:54,669 INFO [WASP] trade_update ev=new sym=SPY oid=b3968a09-ecf0-4dd7-9a26-322ff1820e7f filled=0 status=OrderStatus.NEW
+2025-09-03 13:31:54,670 INFO [WASP] trade_update ev=new sym=SPY oid=216faaba-6b46-40c5-be52-a60d053a8f29 filled=0 status=OrderStatus.NEW
+2025-09-03 13:31:54,809 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=216faaba-6b46-40c5-be52-a60d053a8f29 filled=6 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:31:54,938 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=b3968a09-ecf0-4dd7-9a26-322ff1820e7f filled=5 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:31:55,078 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=b3968a09-ecf0-4dd7-9a26-322ff1820e7f filled=6 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:31:55,218 INFO [WASP] trade_update ev=fill sym=SPY oid=216faaba-6b46-40c5-be52-a60d053a8f29 filled=7 status=OrderStatus.FILLED
+2025-09-03 13:31:55,493 INFO [WASP] trade_update ev=partial_fill sym=SPY oid=b3968a09-ecf0-4dd7-9a26-322ff1820e7f filled=7 status=OrderStatus.PARTIALLY_FILLED
+2025-09-03 13:31:56,837 INFO [WASP] trade_update ev=fill sym=SPY oid=b3968a09-ecf0-4dd7-9a26-322ff1820e7f filled=8 status=OrderStatus.FILLED
+2025-09-03 13:31:57,442 INFO [WASP] Trade update → flat. Back to scanning.
+2025-09-04 03:18:39,670 WARNING trading stream websocket error, restarting  connection: no close frame received or sent
+2025-09-04 03:18:39,753 INFO starting trading websocket connection
+2025-09-04 03:18:42,377 WARNING data websocket error, restarting connection: no close frame received or sent
+2025-09-04 03:18:42,381 INFO starting data websocket connection
+2025-09-04 03:18:42,383 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-09-04 03:18:43,341 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-09-04 03:18:43,544 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-09-04 03:18:43,618 INFO subscribed to bars: ['SPY']
+2025-09-04 03:32:48,269 WARNING trading stream websocket error, restarting  connection: no close frame received or sent
+2025-09-04 03:32:48,309 INFO starting trading websocket connection
+2025-09-04 03:32:49,580 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-09-04 03:49:00,858 WARNING data websocket error, restarting connection: no close frame received or sent
+2025-09-04 03:49:00,859 INFO starting data websocket connection
+2025-09-04 03:49:00,861 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-09-04 03:49:01,792 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-09-04 03:49:01,892 INFO subscribed to bars: ['SPY']
+2025-09-04 06:50:36,160 WARNING data websocket error, restarting connection: no close frame received or sent
+2025-09-04 06:50:36,161 WARNING trading stream websocket error, restarting  connection: no close frame received or sent
+2025-09-04 06:50:36,182 INFO starting data websocket connection
+2025-09-04 06:50:36,186 INFO connecting to wss://stream.data.alpaca.markets/v2/iex
+2025-09-04 06:50:36,201 INFO starting trading websocket connection
+2025-09-04 06:50:39,856 INFO connected to wss://stream.data.alpaca.markets/v2/iex
+2025-09-04 06:50:39,871 INFO connected to: BaseURL.TRADING_STREAM_PAPER
+2025-09-04 06:50:39,924 INFO subscribed to bars: ['SPY']
