@@ -31,7 +31,7 @@ end_date = datetime.now()
 
 
 # Always save to project root's data/bronze/<ticker> directory
-TICKER = "SPY"
+TICKER = "NVDA"
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BRONZE_DIR = os.path.join(PROJECT_ROOT, "data", "bronze", TICKER)
 os.makedirs(BRONZE_DIR, exist_ok=True)

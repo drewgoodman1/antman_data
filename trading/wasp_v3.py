@@ -1,4 +1,4 @@
-# wasp_v2.py — Long-only Fib 50–61.8 + EMA/RSI + ATR percentile gate
+# wasp_v3.py — Long-only Fib 50–61.8 + EMA/RSI + ATR percentile gate
 # Live/paper trading on Alpaca with: +1R partial -> BE (future), 1.618 preferred then 1.272, EOD 15:45
 # pip install -U "alpaca-py>=0.18" pandas numpy pytz python-dotenv
 
@@ -43,7 +43,7 @@ RSI_LONG = 48
 ATR_MULT_STOP = 0.25
 ZZ_ATR_MULT = 1.5
 ZONE_PAD_FRAC = 0.02
-ATR_PCT_Q = 0.60  # top 40% ATR bars (per today’s sessions only)
+ATR_PCT_Q = 0.50  # top 40% ATR bars (per today’s sessions only)
 PREFER_EXT = "161"  # "161" then "127"
 
 SESSIONS = [("09:35", "15:55")]
@@ -226,8 +226,13 @@ class WaspV2:
         self.bracket_runner_id = None
 
         self.client = TradingClient(API_KEY, API_SECRET, paper=True)
-        acct = self.client.get_account()
-        print(f"[WASP] Using {FEED.name} | Buying power: {acct.buying_power}")
+        try:
+            acct = self.client.get_account()
+            logging.info(
+                f"[WASP] Using {FEED.name} | Buying power: {acct.buying_power}"
+            )
+        except Exception:
+            logging.exception("[WASP] failed to fetch account on init")
 
     # ---------- NEW: broker sync + guards ----------
     def sync_broker_state(self) -> None:
@@ -344,7 +349,7 @@ class WaspV2:
         # No position: look for setups (only in sessions & after warmup)
         if len(self.df) < WARMUP_BARS or not time_in_sessions(ts_dt):
             last = self.df.iloc[-1]
-            print(
+            logging.info(
                 f"[BAR] {ts_dt.strftime('%H:%M')} "
                 f"close={last['close']:.2f} ema9={last['ema9']:.2f} ema21={last['ema21']:.2f} "
                 f"rsi={last['rsi']:.1f} atr={last['atr']:.2f}"
@@ -398,7 +403,7 @@ class WaspV2:
         signal = touched and trend_up and mom_ok and vol_ok
 
         # --- print to console ---
-        print(
+        logging.info(
             f"[BAR] {ts_dt.strftime('%H:%M')} "
             f"close={last['close']:.2f} ema9={last['ema9']:.2f} ema21={last['ema21']:.2f} "
             f"rsi={last['rsi']:.1f} atr={last['atr']:.2f} "
@@ -441,7 +446,9 @@ class WaspV2:
         # ---------- NEW: pre-flight guard ----------
         self.sync_broker_state()
         if self.position_qty > 0 or self.has_open_symbol_orders():
-            print("[WASP] Broker shows existing position/open orders; skipping entry.")
+            logging.info(
+                "[WASP] Broker shows existing position/open orders; skipping entry."
+            )
             self.pending = None
             self.cooldown_until = ts_now + timedelta(seconds=COOLDOWN_SEC)
             return
@@ -471,7 +478,7 @@ class WaspV2:
             fallback_used = True
 
         if qty < 1:
-            print(
+            logging.info(
                 f"[WASP] computed qty < 1 even after fallback (entry={entry:.2f}); skipping"
             )
             self.pending = None
@@ -480,7 +487,7 @@ class WaspV2:
         half1 = qty // 2
         half2 = qty - half1
 
-        print(
+        logging.info(
             f"[WASP] sizing: equity={equity if equity else 'unknown'} risk_usd={risk_usd:.2f} R={R:.2f} qty_risk={qty_risk} qty_exposure={qty_exposure} chosen_qty={qty} fallback={fallback_used}"
         )
 
@@ -490,7 +497,7 @@ class WaspV2:
                 bp = float(getattr(acct, "buying_power", 0))
                 est_cost = entry * qty
                 if est_cost > bp:
-                    print(
+                    logging.warning(
                         f"[WASP] insufficient buying power: need ${est_cost:.2f}, have ${bp:.2f}; aborting and cooling down"
                     )
                     self.pending = None
@@ -500,7 +507,7 @@ class WaspV2:
                 pass
 
         if DRY_RUN:
-            print(
+            logging.info(
                 f"[WASP][DRY_RUN] Would submit orders: qty={qty} entry={entry:.2f} tp1={tp1:.2f} runner={runner_price:.2f} stop={stop:.2f}"
             )
             # cache state as if filled for testing flows
@@ -513,7 +520,7 @@ class WaspV2:
             self.pending = None
             return
 
-        print(
+        logging.info(
             f"[WASP] ENTER {self.symbol} {qty} @ {entry:.2f} "
             f"(R={R:.2f} tp1={tp1:.2f} 1.618={t161:.2f} 1.272={t127:.2f} stop={stop:.2f})"
         )
@@ -556,7 +563,7 @@ class WaspV2:
             self.sync_broker_state()
 
         except Exception as e:
-            print("[WASP] Bracket submit failed:", e)
+            logging.exception("[WASP] Bracket submit failed:")
             # prevent repeated retries on persistent rejects
             self.pending = None
             self.cooldown_until = ts_now + timedelta(seconds=COOLDOWN_SEC)
@@ -596,14 +603,14 @@ class WaspV2:
         except Exception:
             pass
 
-        self.position_qty = 0
-        self.entry = self.stop = self.tp1 = self.t161 = self.t127 = None
-        self.bracket_tp1_id = self.bracket_runner_id = None
-        self.pending = None  # ensure no stale signal
-        self.cooldown_until = datetime.now(TZ) + timedelta(seconds=COOLDOWN_SEC)
-        print(
-            f"[WASP] FLAT ({reason}). Cooldown to {self.cooldown_until.strftime('%H:%M:%S')}"
-        )
+            self.position_qty = 0
+            self.entry = self.stop = self.tp1 = self.t161 = self.t127 = None
+            self.bracket_tp1_id = self.bracket_runner_id = None
+            self.pending = None  # ensure no stale signal
+            self.cooldown_until = datetime.now(TZ) + timedelta(seconds=COOLDOWN_SEC)
+            logging.info(
+                f"[WASP] FLAT ({reason}). Cooldown to {self.cooldown_until.strftime('%H:%M:%S')}"
+            )
 
 
 # -------- main --------
@@ -678,9 +685,9 @@ async def main():
             bot.df["ema21"] = ema(bot.df["close"], 21)
             bot.df["rsi"] = rsi(bot.df["close"], 14)
             bot.df["atr"] = atr(bot.df, 14)
-            print(f"[WASP] Backfilled {len(bot.df)} bars.")
+            logging.info(f"[WASP] Backfilled {len(bot.df)} bars.")
     except Exception as e:
-        print(f"[WASP] Backfill failed: {e}")
+        logging.exception(f"[WASP] Backfill failed: {e}")
 
     # Run market-data and trade-update streams with retries & cooperative shutdown
     def md_runner():
@@ -809,4 +816,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("[WASP] Shutting down…")
+        logging.info("[WASP] Shutting down…")

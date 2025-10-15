@@ -1,3 +1,4 @@
+# Fetch 1min bars for any ticker and write to MinIO as Parquet
 import os
 import sys
 import time
@@ -21,9 +22,12 @@ FIELD_MAP = {
 
 def parse_args():
     p = argparse.ArgumentParser(
-        description="Fetch 1min bars from Alpaca and write to MinIO as Parquet"
+        description="Fetch 1min bars from Alpaca and write to MinIO"
     )
-    p.add_argument("--ticker", default="SPY")
+    # default ticker can be set via FETCH_TICKER env; fallback SPY
+    p.add_argument(
+        "--ticker", default=os.getenv("FETCH_TICKER", "NVDA"), help="Ticker to fetch"
+    )
     p.add_argument("--start", required=True, help="YYYY-MM-DD (inclusive)")
     p.add_argument("--end", help="YYYY-MM-DD (inclusive); defaults to --start")
     return p.parse_args()
@@ -109,7 +113,7 @@ def fetch_day(
 
 def write_day_to_minio(df: pd.DataFrame, ticker: str, day: date, env: dict):
     if df.empty:
-        print(f"No data for {day}")
+        print(f"No data for {ticker} {day}")
         return
     # Configure DuckDB httpfs
     con = duckdb.connect()
@@ -147,11 +151,15 @@ def main():
     for d in daterange(start_dt, end_dt):
         try:
             df = fetch_day(
-                args.ticker, d, env["API_KEY"], env["API_SECRET"], env["BASE_URL"]
+                args.ticker.upper(),
+                d,
+                env["API_KEY"],
+                env["API_SECRET"],
+                env["BASE_URL"],
             )
-            write_day_to_minio(df, args.ticker, d, env)
+            write_day_to_minio(df, args.ticker.upper(), d, env)
         except Exception as e:
-            print(f"Error on {d}: {e}")
+            print(f"Error on {d} for {args.ticker}: {e}")
             # continue to next day
 
 

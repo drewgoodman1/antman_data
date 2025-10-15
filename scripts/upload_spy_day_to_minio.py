@@ -3,6 +3,8 @@ import sys
 from datetime import date
 import duckdb
 import pandas as pd
+import re
+import traceback
 
 # Inputs
 DAY = os.environ.get("DAY", "2025-01-02")  # YYYY-MM-DD
@@ -25,6 +27,9 @@ con = duckdb.connect()
 con.execute("INSTALL httpfs; LOAD httpfs;")
 con.execute("SET s3_url_style='path';")
 endpoint = os.environ.get("S3_ENDPOINT_URL", "http://localhost:9100")
+# DuckDB httpfs expects the endpoint without the scheme (it will add http/https itself).
+# Accept env values like 'http://localhost:9100' or 'localhost:9100' and normalize to 'localhost:9100'.
+endpoint = re.sub(r"^https?://", "", endpoint)
 use_ssl = os.environ.get("S3_USE_SSL", "false")
 access_key = os.environ.get("S3_ACCESS_KEY_ID") or os.environ.get("MINIO_ROOT_USER")
 secret_key = os.environ.get("S3_SECRET_ACCESS_KEY") or os.environ.get(
@@ -51,12 +56,15 @@ elif "datetime" in df.columns:
 # Write to MinIO with a single part file for the day
 con.execute("CREATE SCHEMA IF NOT EXISTS lake;")
 con.register("bars", df)
-con.execute(
-    f"""
-    COPY (SELECT * FROM bars)
-    TO '{S3_PREFIX}/part-000.parquet'
-    (FORMAT PARQUET);
-    """
-)
-
-print("Done.")
+try:
+    con.execute(
+        f"""
+        COPY (SELECT * FROM bars)
+        TO '{S3_PREFIX}/part-000.parquet'
+        (FORMAT PARQUET);
+        """
+    )
+    print("Done.")
+except Exception:
+    print("ERROR: failed to write to MinIO for day", DAY)
+    traceback.print_exc()
